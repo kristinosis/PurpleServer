@@ -1,0 +1,14 @@
+{
+    "name": "mmoserver",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "binary-parser": "*",
+        "extend": "*",
+        "jshint": "^2.9.6",
+        "minimist": "*",
+        "mongoose": "*",
+        "performance-now": "*",
+        "underscore": "*"
+    }
+}
