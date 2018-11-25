@@ -1,7 +1,7 @@
 //Import required libraries
 require(__dirname + "/Resources/config.js");
 const fs = require("fs");
-const net = require("net");
+const dgram = require("dgram");
 require("./packet.js");
 
 var initTimerStart = new Date().getTime();
@@ -35,22 +35,35 @@ map_files.forEach(mapFile => {
     maps[map.room] = map;
 });
 
-//HEY LOOK A COMMENT
-net.createServer(function(socket){
+var socket = dgram.createSocket('udp4');
 
-    //Create new client instance
-    var c_instance = new require("./client.js");
-    var client = new c_instance();
+//When socket recieves an error
+socket.on("error", err => {
+    console.log("Server error: " + err.stack);
+    socket.close()
+});
 
-    client.socket = socket;
-    client.initialize();
+//When socket recieves message
+socket.on("message", (message, rinfo) => {
+    console.log(`Recieved data: ${message} from address ${rinfo.address}:${rinfo.port}`);
+    
+    
+    
+    
+    
+    var test = {
+        command: "TEST",
+        val: "Message recieved!"
+    };
+    console.log("Sending response data to the client...");
+    socket.send(Buffer.from(JSON.stringify(test), "ascii"), rinfo.port, rinfo.address);
+});
 
-    //Network events
-    socket.on("error", client.error);
-    socket.on("end", client.end);
-    socket.on("data", client.data);
+//When server starts listening
+socket.on("listening", () => {
+    var initTimerEnd = new Date().getTime();
+    console.log(`\nInitialization completed in ${initTimerEnd-initTimerStart}ms. Server running on port: ${config.port}`);
+});
 
-}).listen(config.port);
+socket.bind(config.port, config.ip);
 
-var initTimerEnd = new Date().getTime();
-console.log(`\nInitialization completed in ${initTimerEnd-initTimerStart}ms. Server running on port: ${config.port}`);

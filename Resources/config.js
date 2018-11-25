@@ -11,6 +11,7 @@ var common_conf = {
     version : "0.0.1",
     environment : environment,
     max_players : 100,
+    max_user_characters : 10,
     data_paths : {
         items : __dirname + "/GameData/Items/",
         maps : __dirname + "/GameData/Maps/"
