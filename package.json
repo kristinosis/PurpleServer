@@ -9,6 +9,7 @@
         "minimist": "*",
         "mongoose": "*",
         "performance-now": "*",
-        "underscore": "*"
+        "underscore": "*",
+        "keypress": "*"
     }
 }

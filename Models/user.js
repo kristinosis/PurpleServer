@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-require(__dirname + "/Resources/config.js");
+require("./../Resources/config.js");
 
 const characterSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -21,8 +21,17 @@ const characterSchema = mongoose.Schema({
     max_essentia: {
         type: [{type: Number}],
         validate: [essentiaLimit, "{PATH} must be of length 3"]
-    }
+    },
+
+    //Character sprite data
+    head_id: Number,
+    body_id: Number,
+    legs_id: Number,
     
+    //Positional Data
+    pos_x: Number,
+    pos_y: Number,
+    current_room: String
 
 });
 
@@ -30,7 +39,7 @@ const userSchema = mongoose.Schema({
     //Unique user ID
     _id: mongoose.Schema.Types.ObjectId,
     //Family name is the account name.. the last name for all characters. It's also the login name
-    family_name: String, 
+    family_name: {type: String, unique: true},
     email: String,
     password: String,
     characters: {
@@ -46,3 +55,44 @@ function essentiaLimit(val){
 function characterLimit(val){
     return val.length <= config.max_user_characters;
 }
+
+userSchema.statics.register = function(email, password, family_name, callback){
+
+    var new_user = new User({
+        _id: mongoose.Types.ObjectId(),
+        family_name: family_name,
+        email: email,
+        password: password,
+        characters: []
+    });
+
+    //Try to save the new user.. if there's no error send 'true' to the callback function. else send 'false'.
+    new_user.save((err) => {
+        if (!err){
+            callback(true);
+        }
+        else {
+            callback(false);
+        }
+    });
+
+};
+
+userSchema.statics.login = function(email, password, callback){
+    User.findOne({email: email}, (error, user) => {
+        if (!error && user){
+            if (user.password == password){
+                callback(true, user);
+            }
+            else {
+                callback(false, null);
+            }
+        }
+        else {
+            callback(false, null);
+        }
+    });
+
+};
+
+module.exports = User = mongoose.model("User", userSchema);
