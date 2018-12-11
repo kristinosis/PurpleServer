@@ -1,31 +1,26 @@
-const now = require("performance-now");
-const us = require("underscore");
-
 module.exports = function(){
 
-    //Added by the server at runtime:
-    //this.socket = {}
-    //this.user = {}
+    client = this;
+    
 
-    this.initialize = function(){
-        var client = this;
-
-        //Send handshake to client
-        client.socket.write(packet.build(["HELLO", now().toString()]));
-
-        console.log("Client connected.")
+    this.initiate = function(ip, port, socket, clientList){
+        this.ip = ip;
+        this.port = port;
+        this.socket = socket;
+        this.clientList = clientList;
     }
 
-    this.data = function(data){
-        console.log("Client data recieved " + data.toString())
+    this.sayHello = function(){
+        console.log("Hello! This is coming from the client instance!");
     }
 
-    this.error = function(err){
-        console.log ("Client error " + err.toString())
+    this.handlePacket = function(data){
+        switch(data.cmd){
+        case "test":
+            console.log("This was a custom command passed through the header");    
+            break;
+        }
     }
 
-    this.end = function(){
-        console.log("Client closed.")
-    }
-
+    
 }
