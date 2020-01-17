@@ -10,6 +10,7 @@
         "mongoose": "*",
         "performance-now": "*",
         "underscore": "*",
-        "keypress": "*"
+        "keypress": "*",
+        "lodash": ">=4.17.12"
     }
 }
