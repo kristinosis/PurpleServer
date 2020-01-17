@@ -35,7 +35,7 @@ var conf = {
     test : {
         ip : args.ip | "0.0.0.0",
         port : args.port | 8082,
-        database : "mongodb+srv://admin:W1!d3Ycs5@cluster-pw-lcf1o.mongodb.net/PurpleServerTest"
+        database : "mongodb+srv://admin:xxxxxx@cluster-pw-lcf1o.mongodb.net/PurpleServerTest"
     }
 }
 
