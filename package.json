@@ -11,6 +11,6 @@
         "performance-now": "*",
         "underscore": "*",
         "keypress": "*",
-        "lodash": ">=4.17.12"
+        "lodash": ">=4.17.19"
     }
 }
